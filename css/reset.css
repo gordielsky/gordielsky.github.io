@@ -1,0 +1,16 @@
+/*A style sheet to reset everything with default values*/
+html, body, div, span,
+h1, h2, h3, h4, h5, h6, p, pre,
+a, i, code, img,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+label, table, caption,
+article, aside, canvas, details, embed,
+menu, nav, output, section, summary,
+time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+}
