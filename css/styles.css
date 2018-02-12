@@ -1,0 +1,89 @@
+/*Welcome to your CSS file! It's pretty lit out here*/
+/*The old background green: rgba(173, 255, 107, 1.0) */
+body {
+  background-color: white;/*#DF3D82 and rgb(180, 180, 180)*/
+  color: black;
+  max-width: 650px;
+}
+
+h1 {
+	background-color: rgb(150, 150, 150);
+  margin-bottom: 26.8px;
+  padding: 4px;
+  border-color: rgb(50, 50, 50);
+  border-left-style: solid;
+  border-right-style: solid;
+  border-width: 10px;
+  font-family: "Bebas Neue", Georgia, serif;
+	font-size: 40px;
+  text-align: center;
+}
+
+h2 {
+  /*font-family: "Franklin Gothic Medium", "Franklin Gothic", sans-serif;*/
+  background-color: rgb(150, 150, 150);
+  margin-bottom: 10px;
+  padding: 3px 6px;
+  border-left-style: solid;
+  border-color: rgb(50, 50, 50);
+  border-width: 8px;
+  font-family: Georgia, serif;
+  font-size: 30px;
+}
+
+p {
+  text-align: left;
+  font-family: Georgia, serif;
+  font-size: 15px;
+}
+
+img {
+  max-width: 650px;
+  margin-bottom: 20px;
+}
+
+i {
+  color: rgb(0, 0, 0);
+}
+
+container {
+  max-width: 650px;
+}
+
+/*Separate rows with individual text and background colours*/
+.row {
+  color: black;
+}
+
+.row:nth-of-type(odd) {
+  background-color: white;
+}
+
+.row:nth-of-type(even) {
+  background-color: rgb(200, 200, 200);
+}
+
+.row > :last-child {
+  padding: 5px 5px 80px 5px;
+}
+
+.title {
+  text-transform: capitalize;
+}
+
+#self-pic {
+  width: 75%;
+  height 75%;
+  display: block;
+  margin: auto auto 20px auto;
+}
+
+#icon-container {
+  font-size: 32px;
+  text-align: center;
+  text-decoration: none;
+}
+
+#icon-container:visited {
+  text-decoration: none;
+}
