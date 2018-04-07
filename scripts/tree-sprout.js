@@ -110,6 +110,7 @@ var triWidth = 10;
 //Array of nodes and branches on the screen
 var nodes = [];
 var branches = [];
+var canvas;
 var ticks = 0;
 
 function setup() {
@@ -162,8 +163,10 @@ function draw() {
       //If it's growing also draw a triangle
       var tri = createTriangle(branch);
       triangle(tri[0], tri[1], tri[2], tri[3], tri[4], tri[5]);
+      //textSize(24);
+      //text("" + i, branch.x, branch.y);
       //Make draw stop if the bottom of the canvas is reached
-      if (branch.y >= element.div.height) {
+      if (branch.y + startPoint.y >= canvas.height) {
         noLoop();
       }
       //If the branch has now reached it's target length, make it stop growing
@@ -195,7 +198,7 @@ function draw() {
           var maxBranchLength = branch.getMaxLength()
           //If this must be the last branch, they will go downwards
           //If it's not the last branch, decide which branches fit and make them (going the normal diagonals)
-          var spaceBelow = element.div.height - startPoint.y - branch.finalY > maxBranchLength;
+          var spaceBelow = canvas.height - startPoint.y - branch.finalY > maxBranchLength;
           if (spaceBelow) {
             spaceOnLeft = branch.finalX + sin(-PI / 4) * maxBranchLength - 15 > -element.div.width / 2;
             spaceOnRight = branch.finalX + sin(PI / 4) * maxBranchLength + 15 < element.div.width / 2;
