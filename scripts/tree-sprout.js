@@ -2,45 +2,55 @@
 //angleMode(DEGREES);
 //rectMode(CENTER);
 
-//Branch and Node Objects
+//Branch blueprint
 class Branch {
   
   constructor(x, y, angle) {
-    //Branches have a lot of properties
+    //Starting position
     this.startX = x;
     this.startY = y;
+    //Current (dynamically updating position)
     this.x = x;
     this.y = y;
+    //Other independent properties - colour, angle, etc
     this.angle = angle;
     this.colour = element.primaryColour;
     this.growing = true; //If the length should keep increasing
     this.growthSpeed = this.getGrowthSpeed(angle);
-    this.maxLengthPercent = 20;
-    var maxLength = this.getMaxLength();
+    this.maxLengthPercent = 20; //Percent of screen that the branch can cover
+    var maxLength = this.getMaxLength(); //Length associated with the above percent
     //Get the target angle from the Node that is the origin
     this.finalX = this.startX + sin(angle) * maxLength;
-    this.finalY = this.startY + cos(angle) * maxLength;
+    if (angle == 0) {
+      this.finalY = canvas.height - startPoint.y;
+    } else {
+      this.finalY = this.startY + cos(angle) * maxLength;
+    }
 //    console.log("branch#: " + branches.length)
 //    console.log("currX: "+ this.x + "   currY: " + this.y);
 //    console.log("finalX: " + this.finalX + "   finalY: " + this.finalY)
   }
   
+  //Make the branch stop growing and stay at its intended final position
   stopGrowing() {
     this.growing = false;
     this.x = this.finalX;
     this.y = this.finalY;
   }
   
+  //Get the max length of the arrow, could change with window resizing
   getMaxLength() {
     var maxLength = (this.maxLengthPercent/100) * windowHeight;
     return maxLength;
   }
   
+  //Get the growth speed based on the angle provided, also could change with window resizing
   getGrowthSpeed(angle) {
     var growthSpeed = branchDownSpeed / cos(angle);
     return growthSpeed;
   }
   
+  //Increase the length of the branch by moving its current coordinates
   grow() {
     this.x += sin(this.angle) * this.growthSpeed;
     this.y += cos(this.angle) * this.growthSpeed;
@@ -53,29 +63,34 @@ class Branch {
   
 }
 
+//Node blueprint
 class Node {
 
   constructor(x, y) {
+    //Node's position
     this.x = x;
     this.y = y;
+    //Current radius of the node (starts at default, grows then remains default)
     this.rad = nodeRad
     this.colour = element.primaryColour;
-    this.pulsing = true;
-    this.pulseLength = 0;
-    this.maxPulseLength = 40;
+    this.pulsing = true;  //If the node is currently growing/shrinking from creation
+    this.pulseLength = 0; //Ticks since pulse began
+    this.maxPulseLength = 40; //Max amount of ticks for a pulse
   }
-  
+
+  //Make the node increase and shrink in size (on birth)
   pulse() {
     if (this.pulseLength % 2 == 0) {
       if (this.pulseLength >= this.maxPulseLength / 2) {
-        this.rad -= nodePulseGrowth;
+        this.rad -= nodePulseGrowth;  //Shrink in 2nd half of pulse
       } else {
-        this.rad += nodePulseGrowth;
+        this.rad += nodePulseGrowth;  //Grow in 1st half of pulse
       }
     }
     this.pulseLength++;
   }
-  
+
+  //When done pulsing
   stopPulsing() {
     this.pulsing = false;
   }
@@ -100,13 +115,16 @@ var mainDiv = {
   size: {'width': 100, 'height': 100}
 };
 var startPoint; //Origin (first node/branches location)
+
 //General node and branch properties
 var nodeRad;
 var nodePulseGrowth;
 var branchWidth;
 var branchDownSpeed;
+//Properties of triangles (arrows) at ends of growing banches
 var triHeight = 15;
 var triWidth = 10;
+
 //Array of nodes and branches on the screen
 var nodes = [];
 var branches = [];
@@ -152,12 +170,22 @@ function draw() {
   
   //Draw all the branches
   var numBranches = branches.length;
+  var stillGrowing = false;
   for (var i = 0; i < numBranches; i++) {
     branch = branches[i];
     //Draw the line
     line(branch.startX, branch.startY, branch.x, branch.y);
+    //If the bottom of the canvas is reached, make the growing stop and draw the triangles
+    if (branch.y + startPoint.y >= canvas.height) {
+      if (branch.growing) {
+        branch.stopGrowing()
+      }
+      var tri = createTriangle(branches[i]);
+      triangle(tri[0], tri[1], tri[2], tri[3], tri[4], tri[5]);
+    }
     //If the branch is still growing, make it grow
     if (branch.growing) {
+      stillGrowing = true;
       //Make it grow
       branch.grow();
       //If it's growing also draw a triangle
@@ -165,10 +193,6 @@ function draw() {
       triangle(tri[0], tri[1], tri[2], tri[3], tri[4], tri[5]);
       //textSize(24);
       //text("" + i, branch.x, branch.y);
-      //Make draw stop if the bottom of the canvas is reached
-      if (branch.y + startPoint.y >= canvas.height) {
-        noLoop();
-      }
       //If the branch has now reached it's target length, make it stop growing
       var sideReached;
       
@@ -181,9 +205,6 @@ function draw() {
       }
       var bottomReached = branch.y >= branch.finalY;
       if (sideReached && bottomReached) {
-        if (i == 4) {
-          console.log("worked")
-        }
         branch.stopGrowing();
         var angle = branch.angle;
         var taken = false;
@@ -210,13 +231,15 @@ function draw() {
       } 
     }
   }
-  
+
   //Draw all the nodes on top of the branches
+  var stillPulsing = false;
   for (var i = 0; i < nodes.length; i++) {
     node = nodes[i];
     ellipse(node.x, node.y, node.rad);
     //If the node is pulsing, make that happen
     if (node.pulsing) {
+      stillPulsing = true;
       node.pulse();
       //If the node needs to stop pulsing, make that happen
       if (node.pulseLength >= node.maxPulseLength) {
@@ -224,6 +247,11 @@ function draw() {
         node.rad = nodeRad;
       }
     }
+  }
+
+  //Stop drawing if nothing is changing
+  if (!stillPulsing && !stillGrowing) {
+    noLoop();
   }
 }
 
@@ -316,6 +344,8 @@ function setBranchDownSpeed() {
 }
 
 function branchTree(x, y, newBranches) {
+  //Create a new node and a pair of child branches going in opposite
+  //directions at 45 degree angles from each side of the node
   nodes.push(new Node(x, y));
   for (var i = 0; i < 2; i++) {
     if (newBranches[i] != false) {
@@ -326,13 +356,17 @@ function branchTree(x, y, newBranches) {
 }
 
 function branchDown(x, y) {
+  //Create a new node and the a branch going straight down
+  //Just for the last branches
   nodes.push(new Node(x, y));
   branches.push(new Branch(x, y, 0));
 }
 
 function createTriangle(branch) {
+  //Get a set of coordinates for the triangles at the end of the growing branches
   var coords = []
   coords.push(branch.x, branch.y);
+  //Trigonometric calculations to get the other points
   var x2 = branch.x - (sin(branch.angle) * triHeight + cos(branch.angle) * (triWidth / 2));
   var y2 = branch.y - cos(branch.angle) * triHeight + sin(branch.angle) * (triWidth / 2);
   var x3 = branch.x - (sin(branch.angle) * triHeight - cos(branch.angle) * (triWidth / 2));
