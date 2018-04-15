@@ -17,14 +17,12 @@ class Branch {
     this.colour = primaryColour;
     this.growing = true; //If the length should keep increasing
     this.growthSpeed = this.getGrowthSpeed(angle);
-    this.maxLengthPercent = 20; //Percent of screen that the branch can cover
-    var maxLength = this.getMaxLength(); //Length associated with the above percent
     //Get the target angle from the Node that is the origin
-    this.finalX = this.startX + sin(angle) * maxLength;
+    this.finalX = this.startX + sin(angle) * branchLength;
     if (angle == 0) {
       this.finalY = canvas.height - startPoint.y;
     } else {
-      this.finalY = this.startY + cos(angle) * maxLength;
+      this.finalY = this.startY + cos(angle) * branchLength;
     }
 //    console.log("branch#: " + branches.length)
 //    console.log("currX: "+ this.x + "   currY: " + this.y);
@@ -90,12 +88,16 @@ class Node {
   }
 }
 
-var startPoint; //Origin (first node/branches location)
+//Origin (node/branch starting position)
+var startPoint = {
+  x: 0,
+  y: 0
+};
 
 //General node and branch properties
 var nodeRad;
 var nodePulseGrowth;
-var branchWidth;
+var branchLength = 100;
 var branchDownSpeed;
 var maxLengthPercent = 20;
 //Properties of triangles (arrows) at ends of growing banches
@@ -107,18 +109,17 @@ var nodes = [];
 var branches = [];
 //Canvas and tick variables
 var canvas;
-var bgColour;
-var primaryColour;
+var bgColour = "rgb(0, 52, 153)";
+var primaryColour = "rgb(230, 230, 230)";
 var isMobile = false; //If the device is a mobile
 var ticks = 0; //Ticks that have passed (as necessary)
 
 function setup() {
-  getDivElement();
+  //getDivElement();
   // Creating the canvas using the element's position and size
-  canvas = createCanvas(windowWidth, windowHeight - 15);
-  background(bgColour);
+  canvas = createCanvas(windowWidth, windowHeight);
   //Add the main header
-  addHeader("Gordie Levitsky", "Second Year Computer Science Student");
+  //addHeader("Gordie Levitsky", "Second Year Computer Science Student");
   
   //Setting all the base constants relative to the screen's size
   nodeRad = setNodeRad();
@@ -151,13 +152,13 @@ function draw() {
   ticks++;
   //Clear the screen to redraw the things
   clear();
+  background(bgColour);
   //Gotta translate the origin every time :(
   translate(startPoint.x, startPoint.y);
   
   //Actual drawing stuff
   //Default colour to a white and also ditch the stroke
   fill(primaryColour);
-  //stroke(25, 25, 25);
   //noStroke();
   
   //Draw all the branches
@@ -207,12 +208,11 @@ function draw() {
         //Create new branches if this is not the downwards line
         if (!taken && branch.angle != 0) {
           //For creating the new branches...
-          var maxBranchLength = branch.getMaxLength()
           //If this must be the last branch, they will go downwards
           //If it's not the last branch, decide which branches fit and make them (going the normal diagonals)
-          var spaceBelow = canvas.height - startPoint.y - branch.finalY > maxBranchLength;
+          var spaceBelow = canvas.height - startPoint.y - branch.finalY > branchLength;
           if (spaceBelow) {
-            branchTree(branch.finalX, branch.finalY, [spaceOnLeft, spaceOnRight]);
+            branchTree(branch.finalX, branch.finalY);
           } else {
             branchDown(branch.finalX, branch.finalY);
           }
@@ -237,10 +237,11 @@ function draw() {
       }
     }
   }
-
-  //Stop drawing if nothing is changing
-  if (!stillPulsing && !stillGrowing) {
-    noLoop();
+  if (!stillGrowing && !stillPulsing && branches.length != 0) {
+    for (var i = branches.length - 1; i >= 0 && branches[i].angle == 0; i--) {
+      var tri = createTriangle(branches[i]);
+      triangle(tri[0], tri[1], tri[2], tri[3], tri[4], tri[5]);
+    }
   }
 }
 
@@ -302,8 +303,8 @@ function branchTree(x, y) {
   //directions at 45 degree angles from each side of the node
   nodes.push(new Node(x, y));
   //Check if there is space for the branch on either side of the new node
-  var spaceOnLeft = startPoint.x + x + sin(-PI / 4) * getMaxLength() - 15 > 0;
-  var spaceOnRight = startPoint.x + x + sin(PI / 4) * maxBranchLength + 15 < canvas.width;
+  var spaceOnLeft = startPoint.x + x + sin(-PI / 4) * branchLength - 15 > 0;
+  var spaceOnRight = startPoint.x + x + sin(PI / 4) * branchLength + 15 < canvas.width;
   //If there is space in that direction, create the branch in that direction
   if (spaceOnLeft) {
     branches.push(new Branch(x, y, (-PI / 4)));
