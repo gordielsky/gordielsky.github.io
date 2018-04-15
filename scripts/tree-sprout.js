@@ -115,7 +115,7 @@ var ticks = 0; //Ticks that have passed (as necessary)
 function setup() {
   getDivElement();
   // Creating the canvas using the element's position and size
-  canvas = createCanvas(windowWidth, windowHeight);
+  canvas = createCanvas(windowWidth, windowHeight - 15);
   background(bgColour);
   //Add the main header
   addHeader("Gordie Levitsky", "Second Year Computer Science Student");
@@ -244,21 +244,21 @@ function draw() {
   }
 }
 
-function windowResized() {
-  //Only mess around with resizes on desktop sites
-  if (!isMobile) {
-    //Reset the canvas size
-    resizeCanvas(windowWidth, windowHeight]);
-
-    //Rescale the drawn tree
-    //nodeRad = setNodeRad();
-    //nodePulseGrowth = setNodePulseGrowth();
-    //branchWidth = setBranchWidth();
-    //branchDownSpeed = setBranchDownSpeed();
-    //Update branches: angles, maxLengths and widths
-    //Update nodes: radii, pulse sizes
-  }
-}
+//function windowResized() {
+//  //Only mess around with resizes on desktop sites
+//  if (!isMobile) {
+//    //Reset the canvas size
+//    resizeCanvas(windowWidth, windowHeight]);
+//
+//    //Rescale the drawn tree
+//    //nodeRad = setNodeRad();
+//    //nodePulseGrowth = setNodePulseGrowth();
+//    //branchWidth = setBranchWidth();
+//    //branchDownSpeed = setBranchDownSpeed();
+//    //Update branches: angles, maxLengths and widths
+//    //Update nodes: radii, pulse sizes
+//  }
+//}
   
 function setNodeRad() {
   var rad;

@@ -261,29 +261,29 @@ function draw() {
   }
 }
 
-function windowResized() {
-  if (!isMobile) {
-    //Reset the animation element's size and the canvas size
-    element.size.width = windowWidth;
-    element.size.height = windowHeight;
-    resizeCanvas(element.size['width'], element.size['height']);
-    //Deal with minor change of phone screen height somehow!!
-
-    //Replace the mainHeader div at the centre
-    mainDiv.div.center('horizontal');
-    mainDiv.pos.x = (element.size['width'] - mainDiv.size['width']) / 2
-    mainDiv.pos.y = element.pos['y'] + (windowHeight / 8);
-    mainDiv.div.position(mainDiv.pos.x, mainDiv.pos.y);
-
-    //Rescale the drawn tree
-    //nodeRad = setNodeRad();
-    //nodePulseGrowth = setNodePulseGrowth();
-    //branchWidth = setBranchWidth();
-    //branchDownSpeed = setBranchDownSpeed();
-    //Update branches: angles, maxLengths and widths
-    //Update nodes: radii, pulse sizes
-  }
-}
+//function windowResized() {
+//  if (!isMobile) {
+//    //Reset the animation element's size and the canvas size
+//    element.size.width = windowWidth;
+//    element.size.height = windowHeight;
+//    resizeCanvas(element.size['width'], element.size['height']);
+//    //Deal with minor change of phone screen height somehow!!
+//
+//    //Replace the mainHeader div at the centre
+//    mainDiv.div.center('horizontal');
+//    mainDiv.pos.x = (element.size['width'] - mainDiv.size['width']) / 2
+//    mainDiv.pos.y = element.pos['y'] + (windowHeight / 8);
+//    mainDiv.div.position(mainDiv.pos.x, mainDiv.pos.y);
+//
+//    //Rescale the drawn tree
+//    //nodeRad = setNodeRad();
+//    //nodePulseGrowth = setNodePulseGrowth();
+//    //branchWidth = setBranchWidth();
+//    //branchDownSpeed = setBranchDownSpeed();
+//    //Update branches: angles, maxLengths and widths
+//    //Update nodes: radii, pulse sizes
+//  }
+//}
 
 function getDivElement() {
   // Getting the element and properties from the HTML
@@ -291,7 +291,7 @@ function getDivElement() {
   element.pos = element.div.position();
   // Make the div span the full page
   element.div.size('width', windowWidth);
-  element.div.size('height', windowHeight);
+  element.div.size('height', windowHeight - 15);
   element.size = element.div.size();
   // Setting the colours using the element's colours
   element.bgColour = element.div.style("background-color");
