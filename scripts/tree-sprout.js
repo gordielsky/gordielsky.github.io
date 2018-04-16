@@ -107,6 +107,15 @@ var triWidth = 10;
 //Array of nodes and branches on the screen
 var nodes = [];
 var branches = [];
+//Sliders for colour, node size and branch length
+var redBGSlider;
+var greenBGSlider;
+var blueBGSlider;
+var redMainSlider;
+var greenMainSlider;
+var blueMainSlider;
+var radSlider;
+var lengthSlider;
 //Canvas and tick variables
 var canvas;
 var bgColour = "rgb(0, 52, 153)";
@@ -128,38 +137,87 @@ function setup() {
   
   //Check if the device is mobile
   if (/Mobi/i.test(navigator.userAgent)) {
-    is_mobile = true;
+    isMobile = true;
+  }
+  
+  if (!isMobile) {
+    //Background colour sliders
+    redBGSlider = createSlider(0, 255, 0);
+    redBGSlider.position(canvas.width - 300, canvas.height/8)
+    greenBGSlider = createSlider(0, 255, 52);
+    greenBGSlider.position(canvas.width - 300, 2 * canvas.height/8)
+    blueBGSlider = createSlider(0, 255, 153);
+    blueBGSlider.position(canvas.width - 300, 3 * canvas.height/8)
+
+    //Primary colour sliders
+    redMainSlider = createSlider(0, 255, 230);
+    redMainSlider.position(canvas.width - 150, canvas.height/8)
+    greenMainSlider = createSlider(0, 255, 230);
+    greenMainSlider.position(canvas.width - 150, 2 * canvas.height/8)
+    blueMainSlider = createSlider(0, 255, 230);
+    blueMainSlider.position(canvas.width - 150, 3 * canvas.height/8)
+
+    //Node radius and branch length sliders
+    radSlider = createSlider(5, 50, nodeRad);
+    radSlider.position(canvas.width - 225, 4 * canvas.height/8)
+    lengthSlider = createSlider(10, 300, branchLength);
+    lengthSlider.position(canvas.width - 225, 5 * canvas.height/8)
   }
 }
 
 function mousePressed() {
-  //Reset the canvas
-  clear()
-  nodes = []
-  branches = []
-  
-  //Set the new starting point
-  startPoint = {
-    x: mouseX,
-    y: mouseY
-  };
-  
-  //Branch from the new point, which will be translated to 0, 0
-  branchTree(0, 0);
+  var isOnSlider = onSlider();
+  if (!isOnSlider) {
+    //Reset the canvas
+    clear();
+    nodes = [];
+    branches = [];
+    if (!isMobile) {
+      nodeRad = radSlider.value();
+      branchLength = lengthSlider.value();
+    }
+
+    //Set the new starting point
+    startPoint = {
+      x: mouseX,
+      y: mouseY
+    };
+
+    //Branch from the new point, which will be translated to 0, 0
+    branchTree(0, 0);
+  }
 }
 
 function draw() {
   ticks++;
   //Clear the screen to redraw the things
   clear();
+  if (!isMobile) {
+    //Reset the main colours
+    bgColour = "rgb(" + redBGSlider.value() + ", " + greenBGSlider.value() + ", " + blueBGSlider.value() + ")";
+    primaryColour = "rgb(" + redMainSlider.value() + ", " + greenMainSlider.value() + ", " + blueMainSlider.value() + ")";
+  }
   background(bgColour);
-  //Gotta translate the origin every time :(
-  translate(startPoint.x, startPoint.y);
   
   //Actual drawing stuff
   //Default colour to a white and also ditch the stroke
   fill(primaryColour);
   //noStroke();
+  
+  if (!isMobile) {
+    //Draw text around the sliders
+    textSize(16);
+    text('Background Colour', redBGSlider.x, redBGSlider.y - 10);
+    text('Foreground Colour', redMainSlider.x, redMainSlider.y - 10);
+    text('R', redBGSlider.x - 15, redBGSlider.y + 16);
+    text('G', greenBGSlider.x - 15, greenBGSlider.y + 16);
+    text('B', blueBGSlider.x - 15, blueBGSlider.y + 16);
+    text('Node Radius', radSlider.x, radSlider.y - 10);
+    text('Branch Length', lengthSlider.x, lengthSlider.y - 10);
+  }
+  
+  //Gotta translate the origin every time :(
+  translate(startPoint.x, startPoint.y);
   
   //Draw all the branches
   var numBranches = branches.length;
@@ -332,4 +390,16 @@ function createTriangle(branch) {
   var y3 = branch.y - cos(branch.angle) * triHeight - sin(branch.angle) * (triWidth / 2);
   coords.push(x2, y2, x3, y3);
   return coords;
+}
+
+function onSlider() {
+  var isOnSlider = false;
+  var sliders = [redBGSlider, greenBGSlider, blueBGSlider, redMainSlider, greenMainSlider, blueMainSlider, radSlider, lengthSlider];
+  for (var i = 0; i < sliders.length && !isOnSlider; i++) {
+    slider = sliders[i];
+    if (mouseX > slider.x && mouseX < slider.x + slider.width && mouseY > slider.y && mouseY < slider.y + slider.height) {
+      isOnSlider = true
+    }
+  }
+  return isOnSlider
 }

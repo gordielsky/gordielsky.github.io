@@ -39,6 +39,22 @@ hr {
   margin: 0 auto;
 }
 
+.project {
+  text-align: center;
+}
+
+.project-pic {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+  min-height: 10px;
+  max-height: 400px;
+  border-radius: 25px;
+  display: block;
+  margin: auto auto auto auto;
+  padding: 5px 5px 5px 5px;
+}
+
 .container {
   padding: 0px;
 }
@@ -59,6 +75,7 @@ hr {
   color: rgb(25, 25, 25);
   background: linear-gradient(rgb(250, 250, 250), rgb(230, 230, 230), rgb(250, 250, 250));
 }
+
 .row::after {
   content: "";
   clear: both;
@@ -102,7 +119,7 @@ hr {
   width: 75%;
   height 75%;
   min-height: 10px;
-  max-height: ;
+  max-height: 500px;
   display: block;
   margin: auto auto auto auto;
   padding: 5px 5px 5px 5px;
