@@ -160,7 +160,7 @@ function setup() {
     //Node radius and branch length sliders
     radSlider = createSlider(5, 50, nodeRad);
     radSlider.position(canvas.width - 225, 4 * canvas.height/8)
-    lengthSlider = createSlider(10, 300, branchLength);
+    lengthSlider = createSlider(30, 300, branchLength);
     lengthSlider.position(canvas.width - 225, 5 * canvas.height/8)
   }
 }
