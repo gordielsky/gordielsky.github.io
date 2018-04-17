@@ -166,8 +166,7 @@ function setup() {
 }
 
 function mousePressed() {
-  var isOnSlider = onSlider();
-  if (!isOnSlider) {
+  if (isMobile || (!isMobile && !onSlider())) {
     //Reset the canvas
     clear();
     nodes = [];
@@ -256,6 +255,9 @@ function draw() {
       }
       var bottomReached = branch.y >= branch.finalY;
       if (sideReached && bottomReached) {
+//        console.log(branchLength);
+//        console.log("x: " + branch.x + "   y: " + branch.y);
+//        console.log("finalX: " + branch.finalX + "   finalY: " + branch.finalY);
         branch.stopGrowing();
         var taken = false;
         for (var i = 0; i < nodes.length; i++) {
@@ -268,12 +270,7 @@ function draw() {
           //For creating the new branches...
           //If this must be the last branch, they will go downwards
           //If it's not the last branch, decide which branches fit and make them (going the normal diagonals)
-          var spaceBelow = canvas.height - startPoint.y - branch.finalY > branchLength;
-          if (spaceBelow) {
-            branchTree(branch.finalX, branch.finalY);
-          } else {
-            branchDown(branch.finalX, branch.finalY);
-          }
+          branchTree(branch.finalX, branch.finalY);
         }
       } 
     }
@@ -357,26 +354,32 @@ function getMaxLength() {
 }
 
 function branchTree(x, y) {
-  //Create a new node and a pair of child branches going in opposite
-  //directions at 45 degree angles from each side of the node
+  //Create a new node and branches from the node
   nodes.push(new Node(x, y));
+  var spaceBelow = canvas.height - startPoint.y - y > branchLength;
+  if (spaceBelow) {
+    //Create a pair of child branches going in opposite
+    //directions at 45 degree angles from each side of the node
+    var spaceOnLeft = startPoint.x + x + sin(-PI / 4) * branchLength - 15 > 0;
+    var spaceOnRight = startPoint.x + x + sin(PI / 4) * branchLength + 15 < canvas.width;
+    //If there is space in that direction, create the branch in that direction
+    if (spaceOnLeft) {
+      branches.push(new Branch(x, y, (-PI / 4)));
+    }
+    if (spaceOnRight) {
+      branches.push(new Branch(x, y, (PI / 4)));
+    }
+  } else {
+    //Create a new node and the a branch going straight down
+    //Just for the last branches
+    nodes.push(new Node(x, y));
+    branches.push(new Branch(x, y, 0));
+  }
   //Check if there is space for the branch on either side of the new node
-  var spaceOnLeft = startPoint.x + x + sin(-PI / 4) * branchLength - 15 > 0;
-  var spaceOnRight = startPoint.x + x + sin(PI / 4) * branchLength + 15 < canvas.width;
-  //If there is space in that direction, create the branch in that direction
-  if (spaceOnLeft) {
-    branches.push(new Branch(x, y, (-PI / 4)));
-  }
-  if (spaceOnRight) {
-    branches.push(new Branch(x, y, (PI / 4)));
-  }
+  
 }
 
 function branchDown(x, y) {
-  //Create a new node and the a branch going straight down
-  //Just for the last branches
-  nodes.push(new Node(x, y));
-  branches.push(new Branch(x, y, 0));
 }
 
 function createTriangle(branch) {
