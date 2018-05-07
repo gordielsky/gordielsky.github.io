@@ -117,6 +117,7 @@ var blueMainSlider;
 var radSlider;
 var lengthSlider;
 //Canvas and tick variables
+var animationStarted = false;
 var canvas;
 var bgColour = "rgb(0, 52, 153)";
 var primaryColour = "rgb(230, 230, 230)";
@@ -166,6 +167,10 @@ function setup() {
 }
 
 function mousePressed() {
+  //Update that the animation has now started
+  if (!animationStarted) {
+    animationStarted = true;
+  }
   if (isMobile || (!isMobile && !onSlider())) {
     //Reset the canvas
     clear();
@@ -203,16 +208,29 @@ function draw() {
   fill(primaryColour);
   //noStroke();
   
+  //If the animation hasn't started yet, tell the user to tap/click on the screen
+  if (!animationStarted) {
+    textSize(24);
+    textAlign(CENTER);
+    if (isMobile) {
+      text('Tap Anywhere!', windowWidth/2, windowHeight/2)
+    } else {
+      text('Click Anywhere!', redBGSlider.x/2, windowHeight/2)
+    }
+  }
+  
   if (!isMobile) {
     //Draw text around the sliders
     textSize(16);
-    text('Background Colour', redBGSlider.x, redBGSlider.y - 10);
-    text('Foreground Colour', redMainSlider.x, redMainSlider.y - 10);
-    text('R', redBGSlider.x - 15, redBGSlider.y + 16);
-    text('G', greenBGSlider.x - 15, greenBGSlider.y + 16);
-    text('B', blueBGSlider.x - 15, blueBGSlider.y + 16);
-    text('Node Radius', radSlider.x, radSlider.y - 10);
-    text('Branch Length', lengthSlider.x, lengthSlider.y - 10);
+    textAlign(CENTER)
+    text('Background Colour', redBGSlider.x + redBGSlider.width/2, redBGSlider.y - 10);
+    text('Foreground Colour', redMainSlider.x + redMainSlider.width/2, redMainSlider.y - 10);
+    text('Node Radius', radSlider.x + radSlider.width/2, radSlider.y - 10);
+    text('Branch Length', lengthSlider.x + lengthSlider.width/2, lengthSlider.y - 10);
+    
+    text('R', redBGSlider.x - 12, redBGSlider.y + 16);
+    text('G', greenBGSlider.x - 12, greenBGSlider.y + 16);
+    text('B', blueBGSlider.x - 12, blueBGSlider.y + 16);
   }
   
   //Gotta translate the origin every time :(
