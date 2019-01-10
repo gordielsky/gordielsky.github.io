@@ -13,6 +13,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.6.0/addons/p5.sound.js"></script>
     <!-- <script src="scripts/centre-text.js"></script> -->
     <script src="scripts/main-tree-sprout.js"></script>
+    <script src="scripts/show-hidden-section.js"></script>
   </head>
   
   <body>
@@ -20,7 +21,56 @@
       
       <div class="row" id="tree-sprout-animation">
       </div>
+      
+      
       <div class="row" id="desc">
+        <div class="col-4">
+          <img id="self-pic" src="images/Gordie Levitsky Picture.jpg" alt="It's me!" align="middle">
+        </div>
+        
+        <div class="col-4">
+          <h2>About Me</h2>
+          
+          <div class="about-section-button">
+            <input type="radio" id="input-exp" name="radio" onclick="showSectionExp();">
+            <label for="input-exp">Work Experience</label>
+          </div>
+          
+          <div class="about-section-button">
+            <input type="radio" id="input-edu" name="radio" onclick="showSectionEdu();">
+            <label for="input-edu">Education</label>
+          </div>
+        </div>
+        
+        <div class="col-4">
+          <div id="experience" style="display: none">
+            <h4>Coop Software Developer</h4>
+            <h5>University Health Network</h5>
+            <ul class="job-info">
+              <li>Added RESTful and SOAP functionality to web services, making information access and usage much easier for hundreds of doctors</li>
+              <li>Tested web services with JUnit, SoapUI and Postman, ensuring complete and eﬃcient functionality of two services</li>
+              <li>Created JBoss Fuse containers, contributing to the integration of dozens of web services</li>
+              <li>Queried various SQL databases to access hundreds of data points</li>
+            </ul>
+            
+            <h4>Guest Services Associate</h4>
+            <h5>Canada's Wonderland</h5>
+            <ul class="job-info">
+              <li>Resolved issues for up to 60 guests an hour resulting in many satisﬁed guests</li>
+              <li>Supervised Admissions Associates to control the smooth ﬂow of guests entering the park</li>
+            </ul>
+          </div>
+          <div id="education" style="display: none">
+            <h3>University of Toronto Scarborough</h3>
+            <h4>Honours Bachelor of Science <br> Specialist in Computer Science</h4>
+            <ul>
+              <li>GPA: 3.96</li>
+              <li>University of Toronto Scarborough Dean’s List 2017-2018</li>
+            </ul>
+          </div>
+        </div>
+        
+<!--
         <div class="col-6">
           <h2>Education</h2>
           <h3>University of Toronto Scarborough</h3>
@@ -29,7 +79,9 @@
         <div class="col-6">
           <img id="self-pic" src="images/Gordie Levitsky Picture.jpg" alt="It's me!" align="middle">
         </div>
+-->
       </div>
+      
       
       <div class="row" id="projects">
         <h2>Projects</h2>
@@ -39,23 +91,26 @@
             <img src="images/Sprout Pic.png" alt="Tree Sprout Picture" align="middle" class="project-pic">
           </a>
         </div>
+        
         <div class="col-8">
         </div>
       </div>
+      
       
       <div class="row" id="contact-info">
         <div class="col-12" id="icon-container">
           <a href="https://www.linkedin.com/in/gordie-levitsky-b1335714a/" target="_blank" id="icon-container">
             <i class="fa fa-linkedin-square"></i>
           </a>
+          
           <a href="https://gordielsky.github.io" id="icon-container">
             <i class="fa fa-hand-pointer-o"></i>
           </a>
+          
           <a href="documents/Levitsky_Gordon_Resume.pdf" target="_blank" id="icon-container">
             <i class="fa fa-file-text"></i>
           </a>
         </div>
-        
       </div>
     </div>
   </body>
