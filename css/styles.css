@@ -172,11 +172,13 @@ button {
   padding: 5px 5px 5px 5px;
 }
 
-#experience {
-}
+#caseware-exp {}
 
-#education {
-}
+#uhn-exp {}
+
+#other-exp {}
+
+#education {}
 
 #contact-info {
   min-height: 50px;

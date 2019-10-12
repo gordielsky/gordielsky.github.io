@@ -139,7 +139,7 @@ function setup() {
   canvas.parent(element.div);
   background(element.bgColour);
   //Add the main header
-  addHeader("Gordie Levitsky", "Second Year Computer Science Student");
+  addHeader("Gordie Levitsky", "Third Year Computer Science Student");
   
   //Setting all the base constants relative to the screen's size
   nodeRad = setNodeRad();

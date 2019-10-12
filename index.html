@@ -32,8 +32,18 @@
           <h2>About Me</h2>
           
           <div class="about-section-button">
-            <input type="radio" id="input-exp" name="radio" onclick="showSectionExp();">
-            <label for="input-exp">Work Experience</label>
+            <input type="radio" id="input-cwi" name="radio" onclick="showSectionExpCWI();">
+            <label for="input-cwi">CaseWare</label>
+          </div>
+          
+          <div class="about-section-button">
+            <input type="radio" id="input-uhn" name="radio" onclick="showSectionExpUHN();">
+            <label for="input-uhn">UHN</label>
+          </div>
+          
+          <div class="about-section-button">
+            <input type="radio" id="input-other" name="radio" onclick="showSectionExpOther();">
+            <label for="input-other">Other Experience</label>
           </div>
           
           <div class="about-section-button">
@@ -43,43 +53,61 @@
         </div>
         
         <div class="col-4">
-          <div id="experience" style="display: none">
+          <div id="caseware-exp" style="display: none">
+            <h4>Coop Software Developer</h4>
+            <h5>CaseWare International</h5>
+            <ul>
+              <!-- class="job-info" on ul for smaller text-->
+              <li>Implemented user-requested features using C++, now used by hundreds of thousands of accountants</li>
+              <li>Cleaned up code for dozens of projects in an application, reducing the likelihood of undefined behaviour</li>
+              <li>Discussed with the Agile team to analyze the difficulty and scope of hundreds of JIRA tickets</li>
+              <li>Wrote several new documents to make the on-boarding process easier for new teammates</li>
+            </ul>
+          </div>
+          
+          <div id="uhn-exp" style="display: none">
             <h4>Coop Software Developer</h4>
             <h5>University Health Network</h5>
-            <ul class="job-info">
+            <ul>
               <li>Added RESTful and SOAP functionality to web services, making information access and usage much easier for hundreds of doctors</li>
               <li>Tested web services with JUnit, SoapUI and Postman, ensuring complete and eﬃcient functionality of two services</li>
               <li>Created JBoss Fuse containers, contributing to the integration of dozens of web services</li>
               <li>Queried various SQL databases to access hundreds of data points</li>
             </ul>
-            
+          </div>
+          
+          <div id="other-exp" style="display: none">
             <h4>Guest Services Associate</h4>
             <h5>Canada's Wonderland</h5>
-            <ul class="job-info">
+            <ul>
               <li>Resolved issues for up to 60 guests an hour resulting in many satisﬁed guests</li>
               <li>Supervised Admissions Associates to control the smooth ﬂow of guests entering the park</li>
             </ul>
+            
+            <h4>Volunteer</h4>
+            <h5>Kangaroo Math Competition</h5>
+            <ul>
+              <li>Aided in setup, registration of dozens of students and cleanup to run a successful event</li>
+            </ul>
           </div>
+          
           <div id="education" style="display: none">
             <h3>University of Toronto Scarborough</h3>
             <h4>Honours Bachelor of Science <br> Specialist in Computer Science</h4>
             <ul>
-              <li>GPA: 3.96</li>
+              <li>GPA: 3.93</li>
               <li>University of Toronto Scarborough Dean’s List 2017-2018</li>
             </ul>
+            <h5>School Projects</h5>
+            <ul>
+              <li>
+                <a href="https://github.com/gordielsky/snake" target="_blank">Snake</a> in Verilog
+              </li>
+              <li>UNIX Command Line in Java</li>
+            </ul>
           </div>
+          
         </div>
-        
-<!--
-        <div class="col-6">
-          <h2>Education</h2>
-          <h3>University of Toronto Scarborough</h3>
-          <h4>Candidate, Honours Bachelor of Science <br> Specialist in Computer Science Co-op</h4>
-        </div>
-        <div class="col-6">
-          <img id="self-pic" src="images/Gordie Levitsky Picture.jpg" alt="It's me!" align="middle">
-        </div>
--->
       </div>
       
       
@@ -107,11 +135,12 @@
             <i class="fa fa-hand-pointer-o"></i>
           </a>
           
-          <a href="documents/Levitsky_Gordon_Resume.pdf" target="_blank" id="icon-container">
+          <a href="documents/Gordie_Levitsky_Resume.pdf" target="_blank" id="icon-container">
             <i class="fa fa-file-text"></i>
           </a>
         </div>
       </div>
+      
     </div>
   </body>
 </html>
